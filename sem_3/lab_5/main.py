@@ -8,6 +8,19 @@ PARAMS = {
         'dest': None
 }
 
+def print_results(*args):
+    """
+    Вывод в табличном виде результатов вычислений
+
+    Функция принимает переменное число значений, которые нужно вывести в табличном виде.
+    последний аргумент в упакованном кортеже - результат вычислений,
+    предпоследний - действие, которое выполнилось,остальные — аргументы, с которыми это действие выполнилось.
+    """
+    operands = args[:len(args)]
+    result = args[-1]
+    action = args[-2]
+
+    print('inp_args in pretty mode', operands, action, result)
 
 def load_params(path="lab_5/params.ini"):
     config = configparser.ConfigParser()
@@ -21,13 +34,6 @@ def load_params(path="lab_5/params.ini"):
 
 
 load_params()
-def write_log(*args, action=None, result=None, file='calc-history.log.txt'):
-    f = open(file, mode='a', errors='ignore')
-
-    f.write(f"{action}: {args} = {result} \n")
-    f.close()
-
-
 
 def write_log(action=None, result=None, file='history.txt'):
     logging.basicConfig(filename=file, level=logging.INFO)
