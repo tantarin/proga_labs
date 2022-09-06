@@ -1,4 +1,7 @@
-def print_results(*args):
+from prettytable import PrettyTable
+
+
+def print_results(*inp_args):
     """
     Вывод в табличном виде результатов вычислений
 
@@ -6,11 +9,21 @@ def print_results(*args):
     последний аргумент в упакованном кортеже - результат вычислений,
     предпоследний - действие, которое выполнилось,остальные — аргументы, с которыми это действие выполнилось.
     """
-    l = list()
-    numbers = list(args[:len(args)-2])
-    result = args[-1]
-    action = args[-2]
-    l.append(numbers)
-    l.append(action)
-    l.append(result)
-    print(tabulate([l], headers=['Arguments', 'Action', 'Result'], tablefmt='orgtbl'))
+    operands = [str(x) for x in inp_args[:len(inp_args) - 2]]
+    result = inp_args[-1]
+    action = inp_args[-2]
+    alph = list()
+    for i in range(65, 65 + len(operands)):
+        alph.append(chr(i))
+    t = PrettyTable([action.join(alph), 'Результат'])
+    t.add_row([action.join(operands), result])
+    print(t)
+
+
+# +-------------+-----------+
+# |    A+B+C    | Результат |
+# +-------------+-----------+
+# | 100+200+200 |    500    |
+# +-------------+-----------+
+
+print_results(100, 200, 200, '+', 500)
