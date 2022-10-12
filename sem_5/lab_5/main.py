@@ -1,58 +1,29 @@
 import requests
-from xml.etree import ElementTree as ET
+from bs4 import BeautifulSoup
 
 
 class Bank:
     def __init__(self):
-        self.result = {
-            'usd': 0,
-            'eur': 0,
-        }
+        self.result = []
 
-    def get_currencies(self, day, month, year):
-        """
-        Выполняет запрос к API Банка России.
+    def get_currencies(self, currencies_ids_lst: list) -> list:
+        cur_res_str = requests.get('http://www.cbr.ru/scripts/XML_daily.asp')
+        soup = BeautifulSoup(cur_res_str.content, 'xml')
+        # print(soup.prettify())
 
-        :param day: Выбранный день.
-        :param month: Выбранный номер месяца.
-        :param year: Выбранный год
-        :return: dict
-        """
-
-        if int(day) < 10:
-            day = '0%s' % day
-
-        if int(month) < 10:
-            month = '0%s' % month
-
-        try:
-            # Выполняем запрос к API.
-            get_xml = requests.get(
-                'http://www.cbr.ru/scripts/XML_daily.asp?date_req=%s/%s/%s' % (day, month, year)
-            )
-
-            # Парсинг XML используя ElementTree
-            structure = ET.fromstring(get_xml.content)
-        except:
-            return self.result
-
-        try:
-            # Поиск курса доллара (USD ID: R01235)
-            dollar = structure.find("./*[@ID='R01235']/Value")
-            self.result['dollar'] = dollar.text.replace(',', '.')
-        except:
-            self.result['dollar'] = 'x'
-
-        try:
-            # Поиск курса евро (EUR ID: R01239)
-            euro = structure.find("./*[@ID='R01239']/Value")
-            self.result['euro'] = euro.text.replace(',', '.')
-        except:
-            self.result['euro'] = 'x'
+        valutes = soup.find_all('Valute')
+        for _v in valutes:
+            valute_id = _v.get('ID')
+            valute = {}
+            if str(valute_id) in currencies_ids_lst:
+                valute_cur_name, valute_cur_val = _v.find('Name').text, _v.find('Value').text
+                valute_charcode = _v.find('CharCode').text
+                valute[valute_charcode] = (valute_cur_name, valute_cur_val)
+                self.result.append(valute)
 
         return self.result
 
 
 bank = Bank()
-res = bank.get_currencies(9, 10, 2022)
+res = bank.get_currencies(['R01035', 'R01335', 'R01700J'])
 print(res)
