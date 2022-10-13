@@ -1,4 +1,3 @@
-import itertools
 from itertools import islice
 
 
@@ -6,42 +5,41 @@ from itertools import islice
 def fib(n):
     """
     Список чисел ряда Фибоначчи
-
     Возвращает значения не превосходящие данное n
-
     Например:
     n = 1, lst = [0, 1, 1]
     n = 2, lst = [0, 1, 1, 2]
     n = 5, [0, 1, 1, 2, 3, 5]
-
     """
-    l = [0]
+    l = []
     a = 0
     b = 1
-    for __ in range(n):
-        a, b = b, a + b
+    while a <= n:
         l.append(a)
+        a, b = b, a + b
     return l
 
 
 # Задание 2
 class FibonachiList:
     def __init__(self, instance=None):
-        if instance is None:
-            instance = [0, 1]
         self.instance = instance
+        self.lst = [0, 0, 1]
 
     def __iter__(self):
-        self.lst = [0, 1]
         return self
 
     def __next__(self):
-        fib_el = self.lst[-1] + self.lst[-2]
-        if fib_el > self.instance[-1]:
+        if self.instance is None:
             raise StopIteration
-        if fib_el in self.instance:
-            self.lst.append(fib_el)
-            return fib_el
+        nextFib = self.lst[-1] + self.lst[-2]
+        self.lst[-3] = self.lst[-2]
+        self.lst[-2] = self.lst[-1]
+        self.lst[-1] = nextFib
+        if self.lst[-3] > self.instance[-1]:
+            raise StopIteration
+        if self.lst[-3] in self.instance:
+            return self.lst[-3]
 
 
 # Задание 3
@@ -56,15 +54,10 @@ def fib_iter(it):
 
 
 # Задание 4
+# функция-генератор
 def my_genn(n):
     a, b = 0, 1
     for _ in range(n):
         yield a
         a, b = b, a + b
 
-
-if __name__ == '__main__':
-    print(list(fib_iter(range(14))))
-    # f = FibonachiList(list(range(10)))
-    # for i in f:
-    #     print(i)
