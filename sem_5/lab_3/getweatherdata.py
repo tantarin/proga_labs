@@ -22,7 +22,7 @@ def get_weather_data(city_name, api_key=None):
 
 
 if __name__ == '__main__':
-    owm_api_key = "b11b7be7ea161d31db5ba95ebb0b158e"
+    owm_api_key = "your own api key"
     get_weather_data('Chicago', api_key=owm_api_key)
     get_weather_data('Saint Petersburg', api_key=owm_api_key)
     get_weather_data('Dhaka', api_key=owm_api_key)
