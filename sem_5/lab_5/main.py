@@ -4,36 +4,30 @@ from bs4 import BeautifulSoup
 
 class Bank:
     def __init__(self):
-        self.all_valutes = []
+        self.all_valutes = dict()
         cur_res_str = requests.get('http://www.cbr.ru/scripts/XML_daily.asp')
         soup = BeautifulSoup(cur_res_str.content, 'xml')
         self.valutes = soup.find_all('Valute')
         for _v in self.valutes:
-            valute = {}
+            id = _v['ID']
             valute_cur_name, valute_cur_val = _v.find('Name').text, _v.find('Value').text
             valute_charcode = _v.find('CharCode').text
-            valute[valute_charcode] = (valute_cur_name, valute_cur_val)
-            self.all_valutes.append(valute)
-        self.valutes = soup.find_all('Valute')
+            self.all_valutes[id] = (valute_charcode, valute_cur_name, float(valute_cur_val.replace(',', '.')))
 
     def __del__(self):
-         print('Object destroyed')
+        print('Object destroyed')
 
-    def get_currencies(self) -> list:
+    def get_currencies(self) -> dict:
         return self.all_valutes
 
-    def set_valute(self, valute_charcode, valute_cur_name, valute_cur_val):
-        valute = {valute_charcode: (valute_cur_name, valute_cur_val)}
-        self.all_valutes.append(valute)
+    def set_valute(self, id, valute_charcode, valute_cur_name, valute_cur_val):
+        self.all_valutes[id] = (valute_charcode, valute_cur_name, float(valute_cur_val.replace(',', '.')))
 
-    def get_valute(self, valute_charcode):
-        for v in self.all_valutes:
-            if list(v.keys())[0] == valute_charcode:
-                return v[valute_charcode]
+    def get_valute(self, id):
+        return {id, self.all_valutes.get(id, None)}
+
+    def get_name(self, id):
+        valute = self.all_valutes[id]
+        return valute[1]
 
 
-bank = Bank()
-res = bank.get_currencies()
-for r in res:
-    print(r)
-print(bank.get_valute('AUD'))
