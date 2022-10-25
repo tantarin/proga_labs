@@ -17,8 +17,14 @@ class Bank:
     def __del__(self):
         print('Object destroyed')
 
-    def get_currencies(self) -> dict:
+    def get_all_currencies(self) -> dict:
         return self.all_valutes
+
+    def get_currencies(self, lst) -> dict:
+        d = dict()
+        for r in lst:
+            d[r] = (self.all_valutes.get(r)[2], self.all_valutes.get(r)[1])
+        return d
 
     def set_valute(self, id, valute_charcode, valute_cur_name, valute_cur_val):
         self.all_valutes[id] = (valute_charcode, valute_cur_name, float(valute_cur_val.replace(',', '.')))
@@ -29,5 +35,10 @@ class Bank:
     def get_name(self, id):
         valute = self.all_valutes[id]
         return valute[1]
+
+
+b = Bank()
+res = b.get_currencies(['R01035', 'R01335', 'R01700J'])
+print(res)
 
 
