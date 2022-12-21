@@ -3,16 +3,9 @@ from django.db import models
 from django.utils import timezone
 
 
-class Post(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    text = models.TextField()
-    created_date = models.DateTimeField(default=timezone.now)
-    published_date = models.DateTimeField(blank=True, null=True)
-
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
+class User(models.Model):
+    first_name = models.CharField(max_length=200)
+    date_of_birth = models.DateField(name='dob')
 
     def __str__(self):
-        return self.title
+        return self.first_name + ', ' + self.date_of_birth

@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'regform',
-    'home',
+    'regform.apps.RegformConfig',
+    'home.apps.HomeConfig',
 ]
 
 MIDDLEWARE = [
