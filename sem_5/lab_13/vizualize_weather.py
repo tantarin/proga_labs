@@ -39,14 +39,16 @@ y_pos = np.arange(len(cur_vals.keys()))
 
 
 # TODO #1 переписать лямбда-функцию из следующей строки через list comprehension
+performance = [float(value.replace(",", ".")) for value in cur_vals.values()]
+print(performance)
 
-perfomance = [float(value.replace(",", ".")) for value in cur_vals.values()]
-print(perfomance)
 
 # TODO #2
 
 #  Подписи должны быть у осей (x, y), у графика, у «рисок» (тиков),
 # столбцы должны быть разных цветов с легендой
+plt.xlabel("x label")
+plt.ylabel("values of valutes")
 
 # TODO #3
 
@@ -60,7 +62,6 @@ print(perfomance)
 
 plt.bar(y_pos, performance)
 # plt.xticks(y_pos, objects)
-plt.ylabel('Usage')
 plt.title('Programming language usage')
 
 plt.show()
