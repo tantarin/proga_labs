@@ -5,26 +5,21 @@ import requests, json
 api_key = '995f52d4b29cb1829a7f4490519144d8'
 
 
-
 def getweather(api_key=None):
-    import json
     import requests
-    city, lat, lon = "Saint Petersburg, RU", 59.57, 30.19
-
-    dt = 1671047690  # datetime of Wed Dec 14 2022 19:54:50 GMT+0000 in unix-like format
-    # Для определения unixtime диапазона для получения температур,
-    # можно использовать сервис https://unixtime-converter.com/
 
     if api_key:
         result = dict()
 
-        base_url = "http://api.openweathermap.org/data/2.5/weather?"
+        base_url = "http://api.openweathermap.org/data/2.5/forecast?"
         city_name = "Berlin"
-        complete_url = base_url + "appid=" + api_key + "&q=" + city_name
+        type = "day"
+        cnt = "5"
+        complete_url = base_url + "appid=" + api_key + "&q=" + city_name + "&type=" + type + "&cnt=" + cnt
         print(complete_url)
         response = requests.get(complete_url)
         x = response.json()
-        print(x)
+        print(json.dumps(x, sort_keys=True, indent=4))
 
         #
         # req_obj = json.loads(req.text)  # Преобразуем объект типа Request в json-формат
