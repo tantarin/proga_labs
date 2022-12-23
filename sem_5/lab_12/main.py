@@ -13,13 +13,17 @@ def getweather(api_key=None):
 
         base_url = "http://api.openweathermap.org/data/2.5/forecast?"
         city_name = "Berlin"
-        type = "day"
         cnt = "5"
-        complete_url = base_url + "appid=" + api_key + "&q=" + city_name + "&type=" + type + "&cnt=" + cnt
-        print(complete_url)
-        response = requests.get(complete_url)
-        x = response.json()
-        print(json.dumps(x, sort_keys=True, indent=4))
+        complete_url = base_url + "appid=" + api_key + "&q=" + city_name + "&cnt=" + cnt
+        req = requests.get(complete_url)
+        data = req.json()
+     #   print(json.dumps(data, sort_keys=True, indent=4))
+        if data['cod'] == '200':
+            for item in data['list']:
+                 date = str(item['dt_txt']).split()[0]
+                 result[date] = item['main']['temp']
+            print(result)
+
 
         #
         # req_obj = json.loads(req.text)  # Преобразуем объект типа Request в json-формат
