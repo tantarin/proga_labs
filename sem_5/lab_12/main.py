@@ -11,13 +11,14 @@ def getweather(api_key=None):
     if api_key:
         result = dict()
 
-        base_url = "http://api.openweathermap.org/data/2.5/forecast?"
-        city_name = "Berlin"
+        base_url = "http://api.openweathermap.org/data/2.5/forecast/daily?"
+        lat = "10.99"
+        lon = "44.34"
         cnt = "5"
-        complete_url = base_url + "appid=" + api_key + "&q=" + city_name + "&cnt=" + cnt
+        complete_url = base_url + "lat" + lat + "&lon" + lon + "&appid=" + api_key + "&q=" + "&cnt=" + cnt
         req = requests.get(complete_url)
         data = req.json()
-     #   print(json.dumps(data, sort_keys=True, indent=4))
+        print(json.dumps(data, sort_keys=True, indent=4))
         if data['cod'] == '200':
             for item in data['list']:
                  date = str(item['dt_txt']).split()[0]
