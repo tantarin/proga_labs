@@ -34,6 +34,8 @@ def visualise_data(dict_data=None):
         temps = dict_data.values()
         plt.scatter(dates, temps)
         plt.title("Прогноз температуры на 5 дней")
+        plt.xlabel("Дата и время")
+        plt.ylabel("Градус Цельсия")
         plt.show()
 
 
