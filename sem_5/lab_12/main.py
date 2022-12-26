@@ -11,7 +11,7 @@ def getweather(api_key=None):
         base_url = "https://api.openweathermap.org/data/2.5/forecast?"
         city = "Moscow"
         cnt = "70"
-        complete_url = base_url + "appid=" + api_key + "&q=" + city + "&cnt=" + cnt
+        complete_url = base_url + "appid=" + api_key + "&q=" + city + "&cnt=" + cnt + "&units=metric"
         print(complete_url)
         req = requests.get(complete_url)
         data = req.json()
