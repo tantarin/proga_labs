@@ -11,14 +11,14 @@ def getweather(api_key=None):
     if api_key:
         result = dict()
 
-        base_url = "http://api.openweathermap.org/data/2.5/forecast/daily?"
-        lat = "10.99"
-        lon = "44.34"
-        cnt = "5"
-        complete_url = base_url + "lat" + lat + "&lon" + lon + "&appid=" + api_key + "&q=" + "&cnt=" + cnt
+        base_url = "https://api.openweathermap.org/data/2.5/forecast?"
+        city = "Moscow"
+        cnt = "70"
+        complete_url = base_url + "appid=" + api_key + "&q=" + city + "&cnt=" + cnt
+        print(complete_url)
         req = requests.get(complete_url)
         data = req.json()
-        print(json.dumps(data, sort_keys=True, indent=4))
+   #     print(json.dumps(data, sort_keys=True, indent=4))
         if data['cod'] == '200':
             for item in data['list']:
                  date = str(item['dt_txt']).split()[0]
@@ -36,6 +36,25 @@ def getweather(api_key=None):
         #
         # result['temps'] = measures
         # return json.dumps(result)
+
+def visualise_data(json_data=''):
+
+    if json_data:
+        import matplotlib.pyplot as pplt
+        import pandas
+        # Мы можем загрузить данные в пригодный для дальнейшей обработки формат
+        # с помощью метода read_json из pandas.
+        data = pandas.read_json(json_data)
+        # print(data)
+        city_name = data['city']
+
+        # получим отдельные столбцы с датами
+        dates = [_d['dt'] for _d in data['temps'][:]]
+        # и тепературами
+        temps = [_t['temp'] for _t in data['temps'][:]]
+
+        # построим их на диаграмме рассеяния
+        pplt.scatter(dates, temps)
 
 
 weather_data_json = getweather(api_key)
