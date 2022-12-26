@@ -10,15 +10,19 @@ def getweather(api_key=None):
         result = dict()
         base_url = "https://api.openweathermap.org/data/2.5/forecast?"
         city = "Moscow"
-        cnt = "70"
+        cnt = "39"
         complete_url = base_url + "appid=" + api_key + "&q=" + city + "&cnt=" + cnt + "&units=metric"
         print(complete_url)
         req = requests.get(complete_url)
         data = req.json()
         if data['cod'] == '200':
             for item in data['list']:
-                date = str(item['dt_txt']).split()[0]
-                result[date] = item['main']['temp']
+                date_splitted = str(item['dt_txt']).split()[0].split('-')
+                date = date_splitted[2] + '.' + date_splitted[1]
+                time = str(item['dt_txt']).split()[1][:5]
+                if time == '00:00' or time == '06:00':
+                    r = '\n'.join([date, time])
+                    result[r] = item['main']['temp']
             print(result)
         return result
 
@@ -29,6 +33,7 @@ def visualise_data(dict_data=None):
         dates = dict_data.keys()
         temps = dict_data.values()
         plt.scatter(dates, temps)
+        plt.title("Прогноз температуры на 5 дней")
         plt.show()
 
 
