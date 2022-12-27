@@ -26,17 +26,12 @@ def get_currencies(currencies_ids_lst=None):
     return result
 
 
-# TODO 0
-# Вывести на графике 10 валют (получить по кодам валюты из ЦБС)
 ten_valutes = ['R01010', 'R01035', 'R01060', 'R01100', 'R01115', 'R01135', 'R01200', 'R01215', 'R01235', 'R01239']
 cur_vals_dict = get_currencies(ten_valutes)
 print(cur_vals_dict.values())
 
 y_pos = cur_vals_dict.keys()
-
-# TODO #1 переписать лямбда-функцию из следующей строки через list comprehension
-performance = [float(value.replace(",", ".")) for value in cur_vals_dict.values()]
-print(performance)
+x_pos = [float(value.replace(",", ".")) for value in cur_vals_dict.values()]
 
 # TODO #2
 
@@ -45,15 +40,16 @@ print(performance)
 plt.xlabel("char codes")
 plt.ylabel("values of valutes")
 
+
 # TODO #3
 # Нарисовать отдельный график с колебанием одной (выбранной вами) валюты
 # (получить данные с сайта ЦБ за год) и отобразить его наиболее
 # оптимальным образом (типом графика)
 
 # TODO #4
-
+col_map = plt.get_cmap('Paired')
 # Отобразить это на одном изображении (2 графика)
-plt.bar(y_pos, performance)
+plt.bar(y_pos, x_pos, color=col_map.colors)
 # plt.xticks(y_pos, objects)
 plt.title('Valutes')
 
