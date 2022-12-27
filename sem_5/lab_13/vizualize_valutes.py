@@ -1,4 +1,7 @@
+from datetime import datetime
+
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 plt.rcdefaults()
 import matplotlib.pyplot as plt
@@ -33,13 +36,37 @@ print(cur_vals_dict.values())
 y_pos = cur_vals_dict.keys()
 x_pos = [float(value.replace(",", ".")) for value in cur_vals_dict.values()]
 
-# TODO #2
 
-#  Подписи должны быть у осей (x, y), у графика, у «рисок» (тиков),
-# столбцы должны быть разных цветов с легендой
-plt.xlabel("char codes")
-plt.ylabel("values of valutes")
+def get_currency_year_dynamic(currency_id=''):
+    cur_res_str = urlopen(
+        f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=27/12/2021&date_req2=27/12/2022&VAL_NM_RQ={currency_id}")
 
+    result = {}
+
+    cur_res_xml = ET.parse(cur_res_str)
+
+    root = cur_res_xml.getroot()
+    records = root.findall('Record')
+    for el in records:
+        date = el.get('Date')
+        valute_val = float(el.find('Value').text.replace(',', '.'))
+        result[date] = valute_val
+
+    return result
+
+
+val_dynamic = get_currency_year_dynamic('R01235')
+dtime = [datetime.strptime(s, '%d.%m.%Y').date() for s in list(val_dynamic.keys())]
+values = list(val_dynamic.values())
+fig, axs = plt.subplots(2, 1, constrained_layout=True)
+
+col_map = plt.get_cmap('Paired')
+fig.set_size_inches(15, 8)
+axs[0].bar(y_pos, x_pos, color=col_map.colors)
+axs[0].set_title('Курсы валют')
+axs[0].set_xlabel("Char codes")
+axs[0].set_ylabel("Values of valutes")
+#plt.legend(["blue", "green"], loc="lower right")
 
 # TODO #3
 # Нарисовать отдельный график с колебанием одной (выбранной вами) валюты
@@ -47,10 +74,13 @@ plt.ylabel("values of valutes")
 # оптимальным образом (типом графика)
 
 # TODO #4
-col_map = plt.get_cmap('Paired')
+
 # Отобразить это на одном изображении (2 графика)
-plt.bar(y_pos, x_pos, color=col_map.colors)
-# plt.xticks(y_pos, objects)
-plt.title('Valutes')
+axs[1].plot(dtime, values, '-')
+axs[1].set_title('Колебание Доллара США за год')
+axs[1].set_xlabel('Дата')
+axs[1].set_ylabel('Стоимость в рублях')
+axs[1].xaxis.set_major_locator(mdates.MonthLocator(bymonth=range(1, 13)))
+axs[1].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%b'))
 
 plt.show()
