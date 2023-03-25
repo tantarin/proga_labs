@@ -14,6 +14,8 @@ plt.rcdefaults()
 <Value>43,8254</Value>
 </Valute>
 '''
+
+
 def get_currencies(currencies_ids_lst=None):
     if currencies_ids_lst is None:
         currencies_ids_lst = ['R01239', 'R01235', 'R01035']
@@ -33,9 +35,21 @@ def get_currencies(currencies_ids_lst=None):
 
 
 ten_valutes = ['R01010', 'R01035', 'R01060', 'R01100', 'R01115', 'R01135', 'R01200', 'R01215', 'R01235', 'R01239']
-cur_vals_dict = get_currencies(ten_valutes)
-print(cur_vals_dict)
-#
+cur_vals_dict = get_currencies(ten_valutes)  # {'AUD': '51,1207', 'GBP': '94,1532'}
+
+
+# TODO 0 Вывести на графике 10 валют (получить по кодам валюты из ЦБС)
+def chart_ten_valutes(vals):
+    x = vals.keys()
+    # TODO #1 переписать лямбда-функцию из следующей строки через list comprehension
+    y = [float(v.replace(",", ".")) for v in vals.values()]
+    plt.plot(x, y, color='green', marker='o', markersize=7)
+    plt.title('График 10 валют')
+    plt.show()
+
+
+chart_ten_valutes(cur_vals_dict)
+
 # y_pos = cur_vals_dict.keys()
 # x_pos = [float(value.replace(",", ".")) for value in cur_vals_dict.values()]
 #
