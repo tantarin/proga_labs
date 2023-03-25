@@ -43,8 +43,13 @@ def chart_ten_valutes(vals):
     x = vals.keys()
     # TODO #1 переписать лямбда-функцию из следующей строки через list comprehension
     y = [float(v.replace(",", ".")) for v in vals.values()]
-    plt.plot(x, y, color='green', marker='o', markersize=7)
+    # TODO #2 Подписи должны быть у осей (x, y), у графика, у «рисок» (тиков),
+    #  столбцы должны быть разных цветов с легендой
+    col_map = plt.get_cmap('Paired')
+    plt.bar(x, y, color=col_map.colors)
     plt.title('График 10 валют')
+    plt.xlabel('Наименования валют')
+    plt.ylabel('Значения валют')
     plt.show()
 
 
