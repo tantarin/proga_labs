@@ -1,3 +1,4 @@
+from datetime import datetime
 from urllib.request import urlopen
 from xml.etree import ElementTree as ET
 
@@ -14,8 +15,6 @@ plt.rcdefaults()
 <Value>43,8254</Value>
 </Valute>
 '''
-
-
 def get_currencies(currencies_ids_lst=None):
     if currencies_ids_lst is None:
         currencies_ids_lst = ['R01239', 'R01235', 'R01035']
@@ -53,33 +52,44 @@ def chart_ten_valutes(vals):
     plt.show()
 
 
-chart_ten_valutes(cur_vals_dict)
+# chart_ten_valutes(cur_vals_dict)
 
-# y_pos = cur_vals_dict.keys()
-# x_pos = [float(value.replace(",", ".")) for value in cur_vals_dict.values()]
-#
-#
-# def get_currency_year_dynamic(currency_id=''):
-#     cur_res_str = urlopen(
-#         f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=27/12/2021&date_req2=27/12/2022&VAL_NM_RQ={currency_id}")
-#
-#     result = {}
-#
-#     cur_res_xml = ET.parse(cur_res_str)
-#
-#     root = cur_res_xml.getroot()
-#     records = root.findall('Record')
-#     for el in records:
-#         date = el.get('Date')
-#         valute_val = float(el.find('Value').text.replace(',', '.'))
-#         result[date] = valute_val
-#
-#     return result
-#
-#
-# val_dynamic = get_currency_year_dynamic('R01235')
-# dtime = [datetime.strptime(s, '%d.%m.%Y').date() for s in list(val_dynamic.keys())]
-# values = list(val_dynamic.values())
+
+# TODO #3 Нарисовать отдельный график с колебанием одной (выбранной вами) валюты (получить данные с сайта ЦБ за год)
+#  и отобразить его наиболее оптимальным образом (типом графика)
+def get_currency_year_dynamic(currency_id=''):
+    cur_res_str = urlopen(
+        f"http://www.cbr.ru/scripts/XML_dynamic.asp?date_req1=27/12/2021&date_req2=27/12/2022&VAL_NM_RQ={currency_id}")
+
+    result = {}
+
+    cur_res_xml = ET.parse(cur_res_str)
+
+    root = cur_res_xml.getroot()
+    records = root.findall('Record')
+    for el in records:
+        date = el.get('Date')
+        valute_val = float(el.find('Value').text.replace(',', '.'))
+        result[date] = valute_val
+
+    return result
+
+
+val_year_dict = get_currency_year_dynamic('R01035')
+
+
+def chart_year_valute(val_year):
+    days = [datetime.strptime(s, '%d.%m.%Y').date() for s in val_year.keys()]
+    values = val_year.values()
+    plt.plot(days, values)
+    plt.title('Фунт стерлингов Соединенного королевства')
+    plt.xlabel('Период')
+    plt.ylabel('Значения валюты')
+    plt.show()
+
+
+chart_year_valute(val_year_dict)
+
 # fig, axs = plt.subplots(2, 1, constrained_layout=True)
 #
 # col_map = plt.get_cmap('Paired')
