@@ -49,10 +49,10 @@ def chart_ten_valutes(vals):
     plt.title('График 10 валют')
     plt.xlabel('Наименования валют')
     plt.ylabel('Значения валют')
-    plt.show()
+    return plt
 
 
-# chart_ten_valutes(cur_vals_dict)
+# chart_ten_valutes(cur_vals_dict).show()
 
 
 # TODO #3 Нарисовать отдельный график с колебанием одной (выбранной вами) валюты (получить данные с сайта ЦБ за год)
@@ -85,34 +85,33 @@ def chart_year_valute(val_year):
     plt.title('Фунт стерлингов Соединенного королевства')
     plt.xlabel('Период')
     plt.ylabel('Значения валюты')
+    return plt
+
+
+# chart_year_valute(val_year_dict).show()
+
+
+# # TODO #4 Отобразить это на одном изображении (2 графика)
+def two_charts(vals, val_year):
+    fig, axs = plt.subplots(2, 1, constrained_layout=True)
+    fig.set_size_inches(15, 8)
+
+    x = vals.keys()
+    y = [float(v.replace(",", ".")) for v in vals.values()]
+    col_map = plt.get_cmap('Paired')
+    axs[0].bar(x, y, color=col_map.colors)
+    axs[0].set_title('График 10 валют')
+    axs[0].set_xlabel('Наименования валют')
+    axs[0].set_ylabel('Значения валют')
+
+    days = [datetime.strptime(s, '%d.%m.%Y').date() for s in val_year.keys()]
+    values = val_year.values()
+    axs[1].plot(days, values)
+    axs[1].set_title('Фунт стерлингов Соединенного королевства')
+    axs[1].set_xlabel('Период')
+    axs[1].set_ylabel('Значения валюты')
+
     plt.show()
 
 
-chart_year_valute(val_year_dict)
-
-# fig, axs = plt.subplots(2, 1, constrained_layout=True)
-#
-# col_map = plt.get_cmap('Paired')
-# fig.set_size_inches(15, 8)
-# axs[0].bar(y_pos, x_pos, color=col_map.colors)
-# axs[0].set_title('Курсы валют')
-# axs[0].set_xlabel("Char codes")
-# axs[0].set_ylabel("Values of valutes")
-# # plt.legend(["blue", "green"], loc="lower right")
-#
-# # TODO #3
-# # Нарисовать отдельный график с колебанием одной (выбранной вами) валюты
-# # (получить данные с сайта ЦБ за год) и отобразить его наиболее
-# # оптимальным образом (типом графика)
-#
-# # TODO #4
-#
-# # Отобразить это на одном изображении (2 графика)
-# axs[1].plot(dtime, values, '-')
-# axs[1].set_title('Колебание Доллара США за год')
-# axs[1].set_xlabel('Дата')
-# axs[1].set_ylabel('Стоимость в рублях')
-# axs[1].xaxis.set_major_locator(mdates.MonthLocator(bymonth=range(1, 13)))
-# axs[1].xaxis.set_major_formatter(mdates.DateFormatter('%Y-%b'))
-#
-# plt.show()
+two_charts(cur_vals_dict, val_year_dict)
