@@ -52,7 +52,6 @@ def get_average_weather(api_key=None):
 def visualise_data(data_with_times=None, average_temp=None):
     if data_with_times and average_temp:
         import matplotlib.pyplot as plt
-        fig = plt.figure()
         dates_times = data_with_times.keys()
         temps = data_with_times.values()
         plt.subplot(121)
@@ -61,6 +60,7 @@ def visualise_data(data_with_times=None, average_temp=None):
         plt.title("Прогноз температуры на 5 дней")
         plt.xlabel("Дата и время")
         plt.ylabel("Градус Цельсия")
+        plt.grid()
         dates = average_temp.keys()
         temps = average_temp.values()
         plt.subplot(122)
@@ -70,6 +70,7 @@ def visualise_data(data_with_times=None, average_temp=None):
         plt.ylabel("Градус Цельсия")
         plt.legend(loc='upper left')
         plt.tight_layout()
+        plt.grid()
         plt.show()
 
 
