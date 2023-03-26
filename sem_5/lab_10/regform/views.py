@@ -1,8 +1,9 @@
-from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth import login
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from regform.forms import SignUpForm
+from regform.forms import RegisterForm
 
 
 def index(request):
@@ -14,21 +15,18 @@ def about(request):
 
 
 def signup(request):
+    if request.method == 'GET':
+        form = RegisterForm()
+        return render(request, 'regform/register.html', {'form': form})
+
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()
-            # load the profile instance created by the signal
+            user = form.save(commit=False)
+            user.username = user.username.lower()
             user.save()
-            raw_password = form.cleaned_data.get('password1')
-
-            # login user after signing up
-            user = authenticate(username=user.username, password=raw_password)
+            messages.success(request, 'You have singed up successfully.')
             login(request, user)
-
-            # redirect user to home page
-            return redirect('home')
-    else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+            return redirect('posts')
+        else:
+            return render(request, 'regformed/register.html', {'form': form})
