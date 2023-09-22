@@ -1,5 +1,4 @@
 import os
-
 import cv2
 
 
@@ -28,12 +27,9 @@ def processVideoOrImage(faceNet, option):
         if not hasFrame:
             cv2.waitKey()
             break
-
         resultImg, faceBoxes = highlightFace(faceNet, frame)
-
         if not faceBoxes:
             print('Лица не распознаны')
-
         cv2.imshow("Распознавание лиц", resultImg)
 
 
@@ -65,9 +61,7 @@ def highlightFace(net, frame, conf_threshold=0.7):
 
             x2 = int(detections[0, 0, _i, 5] * frameWidth)
             y2 = int(detections[0, 0, _i, 6] * frameHeight)
-
             faceBoxes.append([x1, y1, x2, y2])
-
             cv2.rectangle(frameOpencvDnn, (x1, y1), (x2, y2), (0, 225, 0), int(round(frameHeight/150)), 8)
 
         return frameOpencvDnn, faceBoxes
