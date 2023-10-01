@@ -1,4 +1,5 @@
 import math
+import timeit
 
 
 def rectangle_method(f, a, b, n, mode='left'):
@@ -30,3 +31,6 @@ def integrate(f, a, b, n):
 if __name__ == '__main__':
     print(integrate(math.sin, 0, 1, n=100))
     print(rectangle_method(math.sin, 0, 1, 100, mode='left'))
+    # time = timeit.timeit("integrate(sin, 0, pi, n_iter=1000)",
+    #                      setup="from math import sin, pi", number=100) * 1000  # msec
+    # print(f"Время выполнения: {time} мс")
