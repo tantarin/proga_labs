@@ -15,7 +15,7 @@ def rectangle_method(f, a, b, n, mode='left'):
 # а и b - диапазон интегрирования
 # f - функция (например, sin, cos, tan, ...) # может быть любая функция из библиотеки math
 # n_iter - число разбиений
-def integrate_trapezoidal(f, a, b, n):
+def integrate(f, a, b, n):
     h = (b - a) / n  # Шаг интегрирования
     result = 0.5 * (f(a) + f(b))  # Первое и последнее значение функции
 
@@ -28,5 +28,5 @@ def integrate_trapezoidal(f, a, b, n):
 
 
 if __name__ == '__main__':
-    print(integrate_trapezoidal(math.sin, 0, 1, n=100))
+    print(integrate(math.sin, 0, 1, n=100))
     print(rectangle_method(math.sin, 0, 1, 100, mode='left'))
