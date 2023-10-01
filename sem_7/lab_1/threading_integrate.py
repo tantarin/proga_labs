@@ -3,42 +3,53 @@ import timeit
 import threading
 
 
-# Функция для численного интегрирования
-def integrate(f, a, b, n):
-    h = (b - a) / n
-    result = 0.5 * (f(a) + f(b))
+class Integrator:
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.result = 0.0
 
-    for i in range(1, n):
-        x_i = a + i * h
-        result += f(x_i)
+    # Функция для численного интегрирования
+    def integrate(self, f, a, b, n):
+        h = (b - a) / n
+        result = 0.5 * (f(a) + f(b))
 
-    result *= h
-    return result
+        for i in range(1, n):
+            x_i = a + i * h
+            result += f(x_i)
+
+        result *= h
+        return result
+
+    # Функция для интегрирования на подинтервале
+    def integrate_subinterval(self, f, a, b, n):
+        self.lock.acquire()
+        try:
+            partial_result = self.integrate(f, a, b, n)
+            self.result += partial_result
+        finally:
+            self.lock.release()
 
 
-# Функция для интегрирования на подинтервале
-def integrate_subinterval(f, a, b, n, result, lock):
-    partial_result = integrate(f, a, b, n)
-    with lock:
-        result.value += partial_result
-
-
-# Основная функция
 def main():
     a = 0
     b = 1
     n = 1000  # Количество интервалов
     num_threads = 4  # Количество потоков
-    lock = threading.Lock()
+
+    # Создание экземпляра класса Integrator
+    integrator = Integrator()
+
     threads = []
-    # Общая переменная для хранения интегральной суммы
-    result = threading.Value('d', 0.0)
+
+    for i in range(num_threads):
+        start = a + i * (b - a) / num_threads
+        end = a + (i + 1) * (b - a) / num_threads
+        thread = threading.Thread(target=integrator.integrate_subinterval,
+                                  args=(math.sin, start, end, n // num_threads))
+        threads.append(thread)
 
     # Запуск потоков
-    for i in range(num_threads):
-        thread = threading.Thread(target=integrate_subinterval, args=(
-        math.sin, a + i * (b - a) / num_threads, a + (i + 1) * (b - a) / num_threads, n // num_threads, result, lock))
-        threads.append(thread)
+    for thread in threads:
         thread.start()
 
     # Ожидание завершения всех потоков
@@ -46,7 +57,7 @@ def main():
         thread.join()
 
     # Итоговый результат
-    final_result = result.value
+    final_result = integrator.result
     print("Интеграл:", final_result)
 
 
