@@ -1,4 +1,4 @@
-https://replit.com/@TanyaTarinsk/Lab12
+Выполнила Таринская Татьяна.
 
 Реализовать содержимое функций, декларированных в репле: https://replit.com/@zhukov/ClassicIntelligentEvaluations
 
