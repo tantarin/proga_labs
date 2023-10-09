@@ -133,8 +133,9 @@ def retail_graph():
 
 
 if __name__ == "__main__":
-  main()
+   main()
   # data = load_data('MarketingSpend.csv')
   # grouped_data = group_data_by_month(data)
   # plot_marketing_graph(grouped_data)
   # retail_graph()
+
