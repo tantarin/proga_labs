@@ -1,0 +1,3 @@
+https://docs.python.org/3/
+https://habr.com/ru/companies/simbirsoft/articles/701020/
+https://tproger.ru/translations/asynchronous-programming-in-python
