@@ -1,0 +1,22 @@
+{% extends "polls/base.html" %}
+{% block content %}
+{% load socialaccount %}
+    {% load crispy_forms_tags %}
+
+    <!--Login-->
+    <div class="py-5">
+        <h1>Login</h1> {{slogan}}
+        <form method="POST">
+            {% csrf_token %}
+            {{ login_form|crispy }}
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+        <p class="text-center">Don't have an account? <a href="{% url 'polls:register' %}">Create an account</a>.</p>
+    </div>
+    <div class="container">
+        <a href="/admin/google/login" id="google-signin-button">
+            <img src="https://developers.google.com/identity/images/g-logo.png"  alt="Google Icon">
+            <span class="text">Sign in with Google</span>
+        </a>
+    </div>
+{% endblock %}
