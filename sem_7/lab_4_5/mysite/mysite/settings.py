@@ -25,7 +25,12 @@ SECRET_KEY = "django-insecure-_l+pqxv$*jyi93923^e%#10-$p*v)#c)e&z$&&72^9!4x#=3kw
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-SITE_ID = 1
+#
+SITE_ID = 2
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 ALLOWED_HOSTS = []
 
 
@@ -173,6 +178,7 @@ LOGGING = {
 SOCIALACCOUNT_LOGIN_ON_GET=True
 
 AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
     ]
 
