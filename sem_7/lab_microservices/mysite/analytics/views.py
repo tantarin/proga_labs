@@ -5,7 +5,7 @@ import pandas as pd
 from plotly.offline import plot
 import plotly.express as px
 
-from sem_7.lab_microservices.mysite.analytics.models import Chart
+from .models import Chart
 
 
 def index(request):
