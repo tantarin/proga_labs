@@ -3,8 +3,12 @@ from django.shortcuts import render
 
 from django.shortcuts import render
 import pandas as pd
+from django.views import View
 from plotly.offline import plot
 import plotly.express as px
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Chart
 
@@ -38,3 +42,15 @@ def index(request):
     ])
     context = {'plot_div': plot}
     return render(request, 'analytics/index.html', context)
+
+
+class AnalyticsView(View):
+    def get(self, request, *args, **kwargs):
+        # Хардкодированные данные
+        analytics_data = {
+            "total_visits": 1000,
+            "unique_users": 500,
+            "average_duration": "5 minutes",
+        }
+
+        return render(request, "analytics/analytics_page.html", {"analytics_data": analytics_data})
