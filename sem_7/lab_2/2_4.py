@@ -3,10 +3,8 @@
 
 import concurrent.futures
 
-# Пример данных для записи в файл
-data_to_write = "Hello, World!"
 
-# Имя файла
+data_to_write = "Hello, World!"
 file_name = "example.txt"
 
 def write_to_file(data, file_name):
@@ -19,14 +17,9 @@ def read_from_file(file_name):
 
 if __name__ == "__main__":
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-        # Используем Future для синхронизации потоков
         future_write = executor.submit(write_to_file, data_to_write, file_name)
         future_read = executor.submit(read_from_file, file_name)
-
-        # Ожидаем завершения обоих задач
         concurrent.futures.wait([future_write, future_read], return_when=concurrent.futures.ALL_COMPLETED)
-
-        # Получаем результаты
         result_write = future_write.result()
         result_read = future_read.result()
 

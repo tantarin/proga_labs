@@ -21,15 +21,9 @@ class ServerClientCommunication:
 
 if __name__ == "__main__":
     communication = ServerClientCommunication()
-
-    # Создаем потоки для сервера и клиента
     server_thread = threading.Thread(target=communication.server_function)
     client_thread = threading.Thread(target=communication.client_function)
-
-    # Запускаем потоки
     server_thread.start()
     client_thread.start()
-
-    # Ждем, пока оба потока завершат выполнение
     server_thread.join()
     client_thread.join()

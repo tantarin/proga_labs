@@ -38,15 +38,12 @@ if __name__ == "__main__":
     import time
 
     thread_safe_queue = ThreadSafeQueue()
-
-    # Create multiple worker threads
     workers = []
     for i in range(3):
         worker_thread = threading.Thread(target=worker, args=(thread_safe_queue, i))
         workers.append(worker_thread)
         worker_thread.start()
 
-    # Wait for all worker threads to finish
     for worker_thread in workers:
         worker_thread.join()
 

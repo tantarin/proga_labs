@@ -7,22 +7,15 @@ import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import BoundedSemaphore
 
-# URL-ы изображений, которые вы хотите загрузить
+
 image_urls = [
-    'url1',
-    'url2',
-    'url3',
-    # Добавьте здесь остальные URL-ы
+    "https://source.unsplash.com/user/c_v_r/1900x800",
+    "https://source.unsplash.com/user/c_v_r/100x100",
 ]
 
-# Папка для сохранения изображений
 output_folder = 'downloaded_images'
-
-# Создаем папку, если ее нет
 os.makedirs(output_folder, exist_ok=True)
-
-# Семафор для ограничения количества одновременно выполняющихся потоков
-semaphore = BoundedSemaphore(value=2)  # Установите значение семафора в желаемое количество потоков
+semaphore = BoundedSemaphore(value=2)
 
 def download_image(url, filename):
     response = requests.get(url, stream=True)

@@ -22,23 +22,16 @@ def event_checker(event):
         time.sleep(1)
 
 if __name__ == "__main__":
-    # Создаем объект типа Event
     event = threading.Event()
-
-    # Создаем потоки
     setter_thread = threading.Thread(target=event_setter, args=(event,))
     waiter_thread = threading.Thread(target=event_waiter, args=(event,))
     checker_thread = threading.Thread(target=event_checker, args=(event,))
 
-    # Запускаем потоки
     setter_thread.start()
     waiter_thread.start()
     checker_thread.start()
 
-    # Ожидаем завершения потока, который ждет наступления события
     waiter_thread.join()
-
-    # Ожидаем завершения потока, который проверяет событие
     checker_thread.join()
 
     print("All threads have finished.")
