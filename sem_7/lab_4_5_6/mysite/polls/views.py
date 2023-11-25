@@ -25,34 +25,10 @@ from .models import Choice, Question
 from .forms import QuestionForm
 
 
-SLOGANS = [
-    "Polls or Trolls: Without your choice, beware the gremlins' voice!",
-    "Polls or Spooks: Don't let phantoms choose your folks!",
-    "Polls or Ghouls: Vote or let the underworld fool!",
-    "Polls or Wraiths: Make a choice or invite spectral straits!",
-    "Polls or Shadows: Without your say, darkness grows!",
-    "Polls or Beasts: Choose wisely, or unleash monstrous feasts!",
-    "Polls or Nightmares: Cast your vote, or fall into horror's lairs!",
-    "Polls or Ghosts: Decide or invite the haunted costs!",
-    "Polls or Fiends: Without your voice, chaos reigns!",
-    "Polls or Vampires: Your choice could calm the nocturnal pyres!",
-    "Polls or Goblins: Without a vote, mischief unfolds in!",
-    "Polls or Crows: Cast your choice or let dark omens rise!",
-    "Polls or Skeletons: A vote unsaid releases bone-ridden threats!",
-    "Polls or Serpents: Fail to choose, and risk subterranean events!",
-    "Polls or Abyss: A silent electorate summons the darkness!"
-]
-
-
 class PollsBaseView(View):
-    slogans = SLOGANS
-
-    def get_slogan(self):
-        return random.choice(self.slogans)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['slogan'] = self.get_slogan()
         return context
 
 
