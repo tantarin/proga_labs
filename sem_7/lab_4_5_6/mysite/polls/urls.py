@@ -15,7 +15,6 @@ urlpatterns = [
     path("new/", views.PollNewView.as_view(), name="poll_new"),
     # ex: /polls/5/edit/
     path('<int:pk>/edit/', views.PollEditView.as_view(), name='poll_edit'),
-    path('accounts/', include('allauth.urls')),
     path("login", views.LoginView.as_view(), name="login"),
     path("logout", views.LogoutView.as_view(), name="logout"),
     path("register", views.AccountRegisterView.as_view(), name="register"),

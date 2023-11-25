@@ -14,9 +14,9 @@
         <p class="text-center">Don't have an account? <a href="{% url 'polls:register' %}">Create an account</a>.</p>
     </div>
     <div class="container">
-        <a href="/admin/google/login" id="google-signin-button">
-            <img src="https://developers.google.com/identity/images/g-logo.png"  alt="Google Icon">
-            <span class="text">Sign in with Google</span>
-        </a>
+          <button>
+              <img src="https://developers.google.com/identity/images/g-logo.png"  alt="Google Icon">
+            <a href="{% provider_login_url 'google' %}">Login with Google</a>
+        </button>
     </div>
 {% endblock %}
