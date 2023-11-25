@@ -13,10 +13,6 @@
         </form>
         <p class="text-center">Don't have an account? <a href="{% url 'polls:register' %}">Create an account</a>.</p>
     </div>
-    <div class="container">
-          <button>
-              <img src="https://developers.google.com/identity/images/g-logo.png"  alt="Google Icon">
-            <a href="{% provider_login_url 'google' %}">Login with Google</a>
-        </button>
-    </div>
+    <img src="https://developers.google.com/identity/images/g-logo.png"  alt="Google Icon">
+    <a href="{% provider_login_url 'google' %}">Login with Google</a>
 {% endblock %}
