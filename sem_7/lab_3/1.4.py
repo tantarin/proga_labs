@@ -3,6 +3,11 @@ import aiohttp
 import asyncpg
 import json
 
+# Улучшите предыдущую программу, сделав параллельно запрос к публичному веб-серверу и к любой публичной базе данных с распечаткой
+# результатов этих вызовов. Например сделайте запросы к публичному
+# ресурсу последовательностей РНК - RNACentral: https://rnacentral.
+# org/about-us.
+
 WEB_SERVER_URL = "https://rnacentral.org/api/v1/rna/"
 DB_CONNECTION_STRING = "postgres://reader:NWDMCE5xdipIjRrp@hh-pgsql-public.ebi.ac.uk:5432/pfmegrnargs"
 
