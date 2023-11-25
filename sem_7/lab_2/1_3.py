@@ -1,6 +1,9 @@
 import requests
 import concurrent.futures
 
+# Напишите программу на Python, которая выполняет одновременные HTTP запросы с использованием потоков.
+# Используйте библиотеку requests.
+
 def make_request(url):
     response = requests.get(url)
     return response.text

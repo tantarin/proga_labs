@@ -1,5 +1,6 @@
 import threading
 
+#Напишите программу, которая создаёт несколько потоков, а затем выводит их имена изнутри каждого потока.
 def print_thread_name():
     thread_name = threading.current_thread().name
     print(f"Привет, я поток {thread_name}")
