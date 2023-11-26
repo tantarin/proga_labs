@@ -25,11 +25,6 @@ SECRET_KEY = "django-insecure-_l+pqxv$*jyi93923^e%#10-$p*v)#c)e&z$&&72^9!4x#=3kw
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-#
-SITE_ID = 2
-
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
 
 ALLOWED_HOSTS = []
 
@@ -37,33 +32,61 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "polls.apps.PollsConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'crispy_forms',
-    'crispy_bootstrap5',
-    # "debug_toolbar",
+    
+    "corsheaders",
+
     'django.contrib.sites',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+
+    'crispy_forms',
+    'crispy_bootstrap5',
+    
+    'rest_framework',
+
+    'debug_toolbar',    
+    'django_extensions',
+    
+    "polls.apps.PollsConfig",
 ]
+
+SITE_ID = 2 # !
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_LOGOUT_ON_GET= True # !
+ACCOUNT_UNIQUE_EMAIL = True # !
+ACCOUNT_EMAIL_REQUIRED = True # !
+
+# LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    
     "allauth.account.middleware.AccountMiddleware",
-    # "debug_toolbar.middleware.DebugToolbarMiddleware",
+
+    "django.contrib.messages.middleware.MessageMiddleware",
+    
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -139,7 +162,13 @@ TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
+
+LANGUAGES = (
+    ('en-us', 'English'),
+)
 
 
 # Static files (CSS, JavaScript, Images)
@@ -151,6 +180,31 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+
+AUTHENTICATION_BACKENDS = [
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # "APP": {
+        #     "client_id": os.getenv("GOOGLE_CLIENT_ID"),
+        #     "secret": os.getenv("GOOGLE_SECRET_KEY"),
+        #     "key": ""
+        # },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+
 
 # Debug Toolbar
 INTERNAL_IPS = [
@@ -174,22 +228,3 @@ LOGGING = {
 }
 
 # SHOW_TOOLBAR_CALLBACK = 'debug_toolbar.middleware.show_toolbar'
-
-SOCIALACCOUNT_LOGIN_ON_GET=True
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
-    ]
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
-}
