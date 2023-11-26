@@ -189,11 +189,11 @@ AUTHENTICATION_BACKENDS = [
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        # "APP": {
-        #     "client_id": os.getenv("GOOGLE_CLIENT_ID"),
-        #     "secret": os.getenv("GOOGLE_SECRET_KEY"),
-        #     "key": ""
-        # },
+        "APP": {
+            "client_id": "106106814332-su7fmhvccp9r885cukduov88puo5566f.apps.googleusercontent.com",
+            "secret": "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",
+            "key": ""
+        },
         'SCOPE': [
             'profile',
             'email',
